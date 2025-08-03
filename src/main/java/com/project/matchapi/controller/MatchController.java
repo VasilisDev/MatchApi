@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,7 +61,16 @@ public class MatchController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Match found",
                             content = @Content(schema = @Schema(implementation = MatchResponse.class))),
-                    @ApiResponse(responseCode = "404", description = "Match not found")
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Match not found",
+                            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Invalid request. Validation failed or unsupported enum value.",
+                            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+                    )
             }
     )
     @GetMapping("/{id}")
@@ -79,7 +89,13 @@ public class MatchController {
             ),
             responses = {
                     @ApiResponse(responseCode = "201", description = "Match created",
-                            content = @Content(schema = @Schema(implementation = MatchResponse.class)))
+                            content = @Content(schema = @Schema(implementation = MatchResponse.class))),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Invalid request. Validation failed or unsupported enum value.",
+                            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+                    )
+
             }
     )
     @PostMapping
@@ -103,7 +119,17 @@ public class MatchController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Match updated",
                             content = @Content(schema = @Schema(implementation = MatchResponse.class))),
-                    @ApiResponse(responseCode = "404", description = "Match not found")
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Match not found",
+                            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Invalid request. Validation failed or unsupported enum value.",
+                            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+                    )
             }
     )
     @PutMapping("/{id}")
@@ -115,11 +141,12 @@ public class MatchController {
 
     @Operation(
             summary = "Delete a match",
-            description = "Deletes a match by ID.",
+            description = "Deletes a match by id",
             parameters = @Parameter(name = "id", description = "ID of the match to delete", required = true, example = "1"),
             responses = {
                     @ApiResponse(responseCode = "204", description = "Match deleted"),
-                    @ApiResponse(responseCode = "404", description = "Match not found")
+                    @ApiResponse(responseCode = "404", description = "Match not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+                    )
             }
     )
     @DeleteMapping("/{id}")
