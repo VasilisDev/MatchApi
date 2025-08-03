@@ -4,4 +4,5 @@ public record MatchOddResponse(
         Long id,
         String specifier,
         Double odd
-) {}
+) {
+}

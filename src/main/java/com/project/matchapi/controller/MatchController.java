@@ -53,7 +53,6 @@ public class MatchController {
                 .collect(Collectors.toList());
     }
 
-
     @Operation(
             summary = "Get a single match by id",
             description = "Returns the match details for the given id, including odds.",

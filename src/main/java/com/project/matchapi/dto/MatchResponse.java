@@ -15,4 +15,5 @@ public record MatchResponse(
         String teamB,
         Sport sport,
         List<MatchOddResponse> matchOdds
-        ) {}
+) {
+}
