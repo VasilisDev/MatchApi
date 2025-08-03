@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS match_odd (
                                          id SERIAL PRIMARY KEY,
                                          specifier VARCHAR(50),
                                          odd DOUBLE PRECISION,
-                                         match_id INTEGER NOT NULL REFERENCES "match"(id) ON DELETE CASCADE
+                                         match_id INTEGER NOT NULL REFERENCES "match"(id) ON DELETE CASCADE,
                                          CONSTRAINT uq_match_specifier UNIQUE (match_id, specifier)
 
     );
