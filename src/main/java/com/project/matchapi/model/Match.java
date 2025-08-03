@@ -9,6 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -37,6 +39,8 @@ public class Match {
     private String teamB;
 
     @Enumerated(EnumType.STRING)
+    @JdbcType(value = PostgreSQLEnumJdbcType.class)
+    @Column(columnDefinition = "sport")
     private Sport sport;
 
     @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, orphanRemoval = true)
