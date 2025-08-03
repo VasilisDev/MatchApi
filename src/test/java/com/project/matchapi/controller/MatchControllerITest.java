@@ -109,6 +109,28 @@ class MatchControllerITest {
     }
 
     @Test
+    void givenAnUnknownSport_whenUpdate_thenReturnsBadRequest() throws Exception {
+        String body = """
+                {
+                  "description": "Test",
+                  "matchDate": "2025-08-09",
+                  "matchTime": "19:30:00",
+                  "teamA": "TeamA",
+                  "teamB": "TeamB",
+                  "sport": "HANDBALL",
+                  "matchOdds": [
+                    {"specifier": "1", "odd": 2.0}
+                  ]
+                }
+                """;
+
+        mockMvc.perform(put("/matches/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void givenMissingMatch_whenUpdate_thenReturns404WithMessage() throws Exception {
         MatchRequest req = RequestFixture.matchRequest();
         when(matchService.updateMatch(eq(2L), any())).thenThrow(new MatchNotFoundException(2L));
