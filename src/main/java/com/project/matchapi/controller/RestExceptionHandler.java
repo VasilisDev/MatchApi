@@ -10,6 +10,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.Arrays;
 
@@ -20,7 +21,7 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        log.debug("Failed to parse request: {}", ex.getMessage(), ex);
+        log.debug("Failed to parse request={}", ex.getMessage(), ex);
 
         String message = ex.getBindingResult().getFieldErrors().stream()
                 .map(error -> String.format("%s: %s", error.getField(), error.getDefaultMessage()))
@@ -31,7 +32,7 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(MatchNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleMatchNotFound(MatchNotFoundException ex) {
-        log.debug("MatchNotFoundException: {}", ex.getMessage(), ex);
+        log.debug("MatchNotFoundException={}", ex.getMessage(), ex);
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(ex.getMessage()));
     }
@@ -46,7 +47,7 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleInvalidEnum(HttpMessageNotReadableException ex) {
-        log.debug("Failed to read request body: {}", ex.getMessage(), ex);
+        log.debug("Failed to read request body={}", ex.getMessage(), ex);
 
         Throwable cause = ex.getCause();
         if (cause instanceof InvalidFormatException ife && ife.getTargetType().isEnum()) {
@@ -56,6 +57,13 @@ public class RestExceptionHandler {
             return ResponseEntity.badRequest().body(new ErrorResponse(msg));
         }
         return ResponseEntity.badRequest().body(new ErrorResponse("Invalid request body."));
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoResourceFound(NoResourceFoundException ex) {
+        log.debug("No resource found={}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse("Resource not found."));
     }
 
     public record ErrorResponse(String message) {
