@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS match (
                                        match_time TIME NOT NULL,
                                        team_a VARCHAR(255),
                                        team_b VARCHAR(255),
-                                       sport sport_enum NOT NULL
+                                       sport sport NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS match_odd (
@@ -20,4 +20,6 @@ CREATE TABLE IF NOT EXISTS match_odd (
                                          specifier VARCHAR(50),
                                          odd DOUBLE PRECISION,
                                          match_id INTEGER NOT NULL REFERENCES "match"(id) ON DELETE CASCADE
-);
+                                         CONSTRAINT uq_match_specifier UNIQUE (match_id, specifier)
+
+    );
