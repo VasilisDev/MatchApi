@@ -38,26 +38,26 @@ public class MatchService {
     @Transactional
     public Match updateMatch(Long id, Match updatedMatch) {
         Match existingMatch = matchRepository.findById(id)
-                .map(m -> {
-                    m.setDescription(updatedMatch.getDescription());
-                    m.setMatchDate(updatedMatch.getMatchDate());
-                    m.setMatchTime(updatedMatch.getMatchTime());
-                    m.setTeamA(updatedMatch.getTeamA());
-                    m.setTeamB(updatedMatch.getTeamB());
-                    m.setSport(updatedMatch.getSport());
-
-                    if (updatedMatch.getMatchOdds() != null) {
-                        m.getMatchOdds().clear();
-                        for (MatchOdd odd : updatedMatch.getMatchOdds()) {
-                            odd.setMatch(m);
-                            m.getMatchOdds().add(odd);
-                        }
-                    }
-                    return m;
-                })
                 .orElseThrow(() -> new MatchNotFoundException(id));
 
-        return matchRepository.save(existingMatch);
+        existingMatch.setDescription(updatedMatch.getDescription());
+        existingMatch.setMatchDate(updatedMatch.getMatchDate());
+        existingMatch.setMatchTime(updatedMatch.getMatchTime());
+        existingMatch.setTeamA(updatedMatch.getTeamA());
+        existingMatch.setTeamB(updatedMatch.getTeamB());
+        existingMatch.setSport(updatedMatch.getSport());
+
+        if (updatedMatch.getMatchOdds() != null) {
+            existingMatch.getMatchOdds().clear();
+            matchRepository.flush();
+
+            for (MatchOdd odd : updatedMatch.getMatchOdds()) {
+                odd.setMatch(existingMatch);
+                existingMatch.getMatchOdds().add(odd);
+            }
+        }
+
+        return existingMatch;
     }
 
     @Transactional

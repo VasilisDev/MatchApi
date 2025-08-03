@@ -14,6 +14,7 @@ import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -44,7 +45,7 @@ public class Match {
     private Sport sport;
 
     @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MatchOdd> matchOdds;
+    private List<MatchOdd> matchOdds = new ArrayList<>();
 
     public Match() {
     }
