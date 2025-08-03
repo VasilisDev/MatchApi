@@ -64,7 +64,7 @@ class MatchServiceTest {
         Match created = matchService.createMatch(toCreate);
 
         assertThat(created.getMatchOdds()).hasSize(1);
-        MatchOdd odd = created.getMatchOdds().get(0);
+        MatchOdd odd = created.getMatchOdds().getFirst();
         assertThat(odd.getMatch()).isSameAs(created);
         verify(matchRepository).save(toCreate);
     }
@@ -109,7 +109,7 @@ class MatchServiceTest {
         Match result = matchService.updateMatch(1L, updated);
 
         assertThat(result.getMatchOdds()).hasSize(1);
-        assertThat(result.getMatchOdds().get(0).getSpecifier()).isEqualTo("X");
+        assertThat(result.getMatchOdds().getFirst().getSpecifier()).isEqualTo("X");
     }
 
     @Test

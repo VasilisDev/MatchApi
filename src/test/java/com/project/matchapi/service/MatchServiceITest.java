@@ -67,14 +67,14 @@ class MatchServiceITest {
         m.setTeamA("Aek");
         m.setTeamB("Paok");
         m.setSport(Sport.BASKETBALL);
-        m.getMatchOdds().get(0).setSpecifier("X");
+        m.getMatchOdds().getFirst().setSpecifier("X");
 
         Match created = matchService.createMatch(m);
         Match fetched = matchService.getMatchById(created.getId());
 
         assertThat(fetched).isNotNull();
         assertThat(fetched.getMatchOdds()).hasSize(1);
-        assertThat(fetched.getMatchOdds().get(0).getSpecifier()).isEqualTo("X");
+        assertThat(fetched.getMatchOdds().getFirst().getSpecifier()).isEqualTo("X");
     }
 
     @Test
