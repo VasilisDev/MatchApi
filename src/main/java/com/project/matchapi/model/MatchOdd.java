@@ -31,12 +31,6 @@ public class MatchOdd {
     public MatchOdd() {
     }
 
-    public MatchOdd(String specifier, Double odd, Match match) {
-        this.specifier = specifier;
-        this.odd = odd;
-        this.match = match;
-    }
-
     public Long getId() {
         return id;
     }
