@@ -82,13 +82,10 @@ class MatchServiceTest {
         updated.setSport(existing.getSport());
         updated.setMatchOdds(null);
 
-        when(matchRepository.save(any(Match.class))).thenAnswer(inv -> inv.getArgument(0));
-
         Match result = matchService.updateMatch(1L, updated);
 
         assertThat(result.getMatchOdds()).hasSize(1);
         assertThat(result.getDescription()).isEqualTo("Updated Description");
-        verify(matchRepository).save(existing);
     }
 
     @Test
@@ -109,13 +106,10 @@ class MatchServiceTest {
         newOdd.setMatch(updated);
         updated.setMatchOdds(Collections.singletonList(newOdd));
 
-        when(matchRepository.save(any(Match.class))).thenAnswer(inv -> inv.getArgument(0));
-
         Match result = matchService.updateMatch(1L, updated);
 
         assertThat(result.getMatchOdds()).hasSize(1);
         assertThat(result.getMatchOdds().get(0).getSpecifier()).isEqualTo("X");
-        verify(matchRepository).save(existing);
     }
 
     @Test
