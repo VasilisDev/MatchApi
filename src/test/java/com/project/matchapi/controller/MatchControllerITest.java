@@ -86,7 +86,7 @@ class MatchControllerITest {
         mockMvc.perform(post("/matches")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.teamA").value("Team Alpha"))
                 .andExpect(jsonPath("$.teamB").value("Team Beta"))
                 .andExpect(jsonPath("$.matchOdds.length()").value(1))
