@@ -2,6 +2,7 @@ package com.project.matchapi.dto;
 
 import com.project.matchapi.model.Sport;
 import com.project.matchapi.validation.UniqueOddSpecifiers;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -16,5 +17,8 @@ public record MatchRequest(
             @NotBlank String teamA,
             @NotBlank String teamB,
             @NotNull Sport sport,
-            @UniqueOddSpecifiers List<MatchOddRequest> matchOdds
+            @NotNull
+            @Valid
+            @UniqueOddSpecifiers
+            List<MatchOddRequest> matchOdds
         ) {}
