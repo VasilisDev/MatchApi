@@ -1,7 +1,7 @@
 DO $$
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'sport_enum') THEN
-CREATE TYPE sport_enum AS ENUM ('FOOTBALL', 'BASKETBALL');
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'sport') THEN
+CREATE TYPE sport AS ENUM ('FOOTBALL', 'BASKETBALL');
 END IF;
 END$$;
 
