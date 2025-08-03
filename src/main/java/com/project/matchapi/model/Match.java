@@ -1,6 +1,7 @@
 package com.project.matchapi.model;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -23,11 +24,16 @@ public class Match {
 
     private String description;
 
+    @Column(name = "match_date")
     private LocalDate matchDate;
 
+    @Column(name = "match_time")
     private LocalTime matchTime;
 
+    @Column(name = "team_a")
     private String teamA;
+
+    @Column(name = "team_b")
     private String teamB;
 
     @Enumerated(EnumType.STRING)
